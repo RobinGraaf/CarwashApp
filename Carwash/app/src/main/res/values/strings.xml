@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Carwash</string>
+    <string name="title_activity_route">Map</string>
+    <string name="title_activity_add_program">AddProgramActivity</string>
+    <string name="title_activity_review">ReviewActivity</string>
+</resources>
