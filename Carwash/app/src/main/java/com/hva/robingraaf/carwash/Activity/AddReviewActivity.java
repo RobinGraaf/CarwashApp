@@ -87,6 +87,7 @@ public class AddReviewActivity extends AppCompatActivity{
         String reviewInput = reviewEditText.getText().toString();
         float rating = ratingBar.getRating();
 
+        // Edit the review based on the Id and the new values
         DataSource dataSource = new DataSource(this);
         dataSource.editReview(editReview, nameInput, reviewInput, rating);
 

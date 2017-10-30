@@ -105,8 +105,9 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
         dataSource.deleteReview(review.getId());
 
-        Intent intent = new Intent (context, ReviewActivity.class);
-        context.startActivity(intent);
+        // Notify that something has been changed, then update the list in the RecyclerView
+        notifyDataSetChanged();
+        updateList(dataSource.getReviews());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
