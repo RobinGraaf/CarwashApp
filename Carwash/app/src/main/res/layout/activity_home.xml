@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background"
-    tools:context="com.hva.robingraaf.carwash.Activity.HomeActivity">
+    tools:context="com.hva.robingraaf.carwash.HomeActivity">
 
     <ImageView
         android:id="@+id/imageView"

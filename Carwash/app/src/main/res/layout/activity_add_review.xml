@@ -81,9 +81,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/addRatingBar"
+            android:layout_marginBottom="8dp"
             android:layout_toStartOf="@+id/btn_cancel"
-            android:text="Add"
-            android:layout_marginBottom="8dp"/>
+            android:text="Save" />
 
         <Button
             android:id="@+id/btn_cancel"

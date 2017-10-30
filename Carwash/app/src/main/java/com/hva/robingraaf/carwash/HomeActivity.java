@@ -1,4 +1,4 @@
-package com.hva.robingraaf.carwash.Activity;
+package com.hva.robingraaf.carwash;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +8,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import com.hva.robingraaf.carwash.R;
+import com.hva.robingraaf.carwash.Activity.ProgramActivity;
+import com.hva.robingraaf.carwash.Activity.ReviewActivity;
+import com.hva.robingraaf.carwash.Activity.RouteActivity;
+import com.hva.robingraaf.carwash.Activity.WebcamActivity;
 
 public class HomeActivity extends AppCompatActivity {
 

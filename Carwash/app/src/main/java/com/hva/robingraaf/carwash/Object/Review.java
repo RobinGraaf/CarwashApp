@@ -16,12 +16,12 @@ public class Review implements Serializable {
     private String review;
     private float rating;
 
-    public Review(int id, String name, String review, float rating) {
-        this.id = id;
+    public Review(String name, String review, float rating) {
         this.name = name;
         this.review = review;
         this.rating = rating;
     }
+
     public Review() {
     }
 

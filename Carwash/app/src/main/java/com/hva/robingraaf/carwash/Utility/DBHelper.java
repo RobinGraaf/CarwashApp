@@ -1,8 +1,14 @@
 package com.hva.robingraaf.carwash.Utility;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.hva.robingraaf.carwash.Object.Review;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Robin on 16-10-2017.
@@ -22,7 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     ReviewContract.ReviewEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
                     + ReviewContract.ReviewEntry.COLUMN_NAME_NAME + " TEXT, "
                     + ReviewContract.ReviewEntry.COLUMN_NAME_REVIEW + " TEXT, "
-                    + ReviewContract.ReviewEntry.COLUMN_NAME_RATING + " TEXT, )";
+                    + ReviewContract.ReviewEntry.COLUMN_NAME_RATING + " TEXT )";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -40,5 +46,34 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + ReviewContract.ReviewEntry.TABLE_NAME);
         // Create tables again
         onCreate(db);
+    }
+
+    public List<Review> getReviews() // Get all reviews
+    {
+        DBHelper dbHelper = new DBHelper(context);
+        //Open connection to read only
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String selectQuery = "SELECT  " +
+                ReviewContract.ReviewEntry.COLUMN_NAME_ID + ',' +
+                ReviewContract.ReviewEntry.COLUMN_NAME_NAME + ',' +
+                ReviewContract.ReviewEntry.COLUMN_NAME_REVIEW + ',' +
+                ReviewContract.ReviewEntry.COLUMN_NAME_RATING +
+                " FROM " + ReviewContract.ReviewEntry.TABLE_NAME;
+        //User user = new User();
+        List<Review> reviewList = new ArrayList<>();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Review review = new Review();
+                review.setId(cursor.getInt(cursor.getColumnIndex(ReviewContract.ReviewEntry.COLUMN_NAME_ID)));
+                review.setName(cursor.getString(cursor.getColumnIndex(ReviewContract.ReviewEntry.COLUMN_NAME_NAME)));
+                review.setReview(cursor.getString(cursor.getColumnIndex(ReviewContract.ReviewEntry.COLUMN_NAME_REVIEW)));
+                review.setRating((cursor.getFloat(cursor.getColumnIndex(ReviewContract.ReviewEntry.COLUMN_NAME_RATING))));
+                reviewList.add(review);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return reviewList;
     }
 }

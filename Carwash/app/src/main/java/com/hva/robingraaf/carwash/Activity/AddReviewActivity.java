@@ -23,6 +23,8 @@ public class AddReviewActivity extends AppCompatActivity{
     private Button btnAdd;
     private Button btnCancel;
 
+    private Review editReview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,13 +36,22 @@ public class AddReviewActivity extends AppCompatActivity{
         reviewEditText = (EditText) findViewById(R.id.reviewEditText);
         ratingBar = (RatingBar) findViewById(R.id.addRatingBar);
 
+        Intent intent = getIntent();
+        Bundle values = intent.getExtras();
+
+        final boolean editing = (boolean) values.get("Editing");
+        if (editing) { setValues(values); }
+
         btnAdd = (Button) findViewById(R.id.btn_add);
         btnCancel = (Button) findViewById(R.id.btn_cancel);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveReview();
+                if (editing) {
+                    saveEditedReview();
+                } else
+                saveNewReview();
             }
         });
 
@@ -53,17 +64,42 @@ public class AddReviewActivity extends AppCompatActivity{
         });
     }
 
-    public void saveReview() {
+    public void saveNewReview() {
+
         // Retrieve the input from the user
         String nameInput = nameEditText.getText().toString();
         String reviewInput = reviewEditText.getText().toString();
         float rating = ratingBar.getRating();
 
         DataSource dataSource = new DataSource(this);
-        Review review = new Review(-1, nameInput, reviewInput, rating);
+
+        Review review = new Review(nameInput, reviewInput, rating);
         dataSource.saveReview(review);
 
         Intent intent = new Intent(AddReviewActivity.this, ReviewActivity.class);
         startActivity(intent);
+    }
+
+    public void saveEditedReview() {
+
+        // Retrieve the input from the user
+        String nameInput = nameEditText.getText().toString();
+        String reviewInput = reviewEditText.getText().toString();
+        float rating = ratingBar.getRating();
+
+        DataSource dataSource = new DataSource(this);
+        dataSource.editReview(editReview, nameInput, reviewInput, rating);
+
+        Intent intent = new Intent(AddReviewActivity.this, ReviewActivity.class);
+        startActivity(intent);
+    }
+
+    private void setValues(Bundle values){
+        Review review = (Review) values.get("Review");
+        this.editReview = review;
+
+        nameEditText.setText(review.getName());
+        reviewEditText.setText(review.getReview());
+        ratingBar.setRating(review.getRating());
     }
 }
